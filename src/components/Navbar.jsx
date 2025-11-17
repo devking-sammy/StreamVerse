@@ -79,8 +79,9 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 w-full bg-black/80 backdrop-blur-lg z-50 border-b border-gray-800">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-        {/* Logo */}
-        <Link to="/home" className="flex items-center gap-2">
+
+        {/* LOGO - ONLY IMAGE, NO TEXT */}
+        <Link to="/home">
           <img src={Logo} alt="StreamVerse Logo" className="w-32 sm:w-36 object-contain" />
         </Link>
 
@@ -90,7 +91,10 @@ export default function Navbar() {
             Home
           </Link>
 
-          <Link to="/search" className="flex items-center gap-2 hover:text-white transition duration-200">
+          <Link
+            to="/search"
+            className="flex items-center gap-2 hover:text-white transition duration-200"
+          >
             <FaSearch className="text-lg" />
             <span className="hidden sm:inline">Search</span>
           </Link>
@@ -103,7 +107,11 @@ export default function Navbar() {
               >
                 <FaUserCircle className="text-2xl" />
                 <span className="hidden sm:inline">{userName || "User"}</span>
-                <FaChevronDown className={`text-sm transition-transform duration-200 ${menuOpen ? "rotate-180" : ""}`} />
+                <FaChevronDown
+                  className={`text-sm transition-transform duration-200 ${
+                    menuOpen ? "rotate-180" : ""
+                  }`}
+                />
               </button>
 
               {menuOpen && (
@@ -114,7 +122,11 @@ export default function Navbar() {
                   </div>
 
                   <div className="flex flex-col py-1">
-                    <Link to="/favorites" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-4 py-3 text-sm text-gray-300 hover:bg-gray-800 transition">
+                    <Link
+                      to="/favorites"
+                      onClick={() => setMenuOpen(false)}
+                      className="flex items-center gap-2 px-4 py-3 text-sm text-gray-300 hover:bg-gray-800 transition"
+                    >
                       <FaHeart className="text-red-500" /> Favorites
                     </Link>
 
@@ -124,17 +136,28 @@ export default function Navbar() {
                           <FaCrown /> {plan} Plan
                         </div>
 
-                        <Link to="/billing" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-4 py-3 text-sm text-gray-300 hover:bg-gray-800 transition">
+                        <Link
+                          to="/billing"
+                          onClick={() => setMenuOpen(false)}
+                          className="flex items-center gap-2 px-4 py-3 text-sm text-gray-300 hover:bg-gray-800 transition"
+                        >
                           <FaFileInvoiceDollar className="text-green-400" /> Billing History
                         </Link>
                       </>
                     ) : (
-                      <Link to="/subscribe" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-4 py-3 text-sm text-gray-300 hover:bg-gray-800 transition">
+                      <Link
+                        to="/subscribe"
+                        onClick={() => setMenuOpen(false)}
+                        className="flex items-center gap-2 px-4 py-3 text-sm text-gray-300 hover:bg-gray-800 transition"
+                      >
                         <FaCrown className="text-yellow-400" /> Subscribe
                       </Link>
                     )}
 
-                    <button onClick={handleLogout} className="flex items-center gap-2 w-full text-left px-4 py-3 text-sm text-gray-300 hover:bg-red-600 hover:text-white transition">
+                    <button
+                      onClick={handleLogout}
+                      className="flex items-center gap-2 w-full text-left px-4 py-3 text-sm text-gray-300 hover:bg-red-600 hover:text-white transition"
+                    >
                       <FaSignOutAlt /> Logout
                     </button>
                   </div>
@@ -143,20 +166,30 @@ export default function Navbar() {
             </div>
           ) : (
             <>
-              <Link to="/login" className="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg text-white font-semibold transition">
+              <Link
+                to="/login"
+                className="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg text-white font-semibold transition"
+              >
                 Login
               </Link>
-              <Link to="/register" className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg text-white font-semibold transition">
+              <Link
+                to="/register"
+                className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg text-white font-semibold transition"
+              >
                 Sign Up
               </Link>
             </>
           )}
         </div>
 
-        {/* Mobile Hamburger */}
+        {/* Mobile Button */}
         <div className="md:hidden flex items-center">
           <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-            {mobileMenuOpen ? <FaTimes className="text-2xl text-white" /> : <FaBars className="text-2xl text-white" />}
+            {mobileMenuOpen ? (
+              <FaTimes className="text-2xl text-white" />
+            ) : (
+              <FaBars className="text-2xl text-white" />
+            )}
           </button>
         </div>
       </div>
@@ -164,14 +197,29 @@ export default function Navbar() {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-gray-900 border-t border-gray-700 w-full text-gray-300 font-medium animate-fade-in">
-          <Link to="/home" onClick={() => setMobileMenuOpen(false)} className="block px-6 py-3 hover:bg-gray-800 transition">Home</Link>
-          <Link to="/search" onClick={() => setMobileMenuOpen(false)} className="block px-6 py-3 hover:bg-gray-800 transition flex items-center gap-2">
+          <Link
+            to="/home"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block px-6 py-3 hover:bg-gray-800 transition"
+          >
+            Home
+          </Link>
+
+          <Link
+            to="/search"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block px-6 py-3 hover:bg-gray-800 transition flex items-center gap-2"
+          >
             <FaSearch /> Search
           </Link>
 
           {user ? (
             <>
-              <Link to="/favorites" onClick={() => setMobileMenuOpen(false)} className="block px-6 py-3 hover:bg-gray-800 transition flex items-center gap-2">
+              <Link
+                to="/favorites"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block px-6 py-3 hover:bg-gray-800 transition flex items-center gap-2"
+              >
                 <FaHeart className="text-red-500" /> Favorites
               </Link>
 
@@ -180,24 +228,48 @@ export default function Navbar() {
                   <div className="px-6 py-3 text-yellow-400 font-semibold flex items-center gap-2">
                     <FaCrown /> {plan} Plan
                   </div>
-                  <Link to="/billing" onClick={() => setMobileMenuOpen(false)} className="block px-6 py-3 hover:bg-gray-800 transition flex items-center gap-2">
+
+                  <Link
+                    to="/billing"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block px-6 py-3 hover:bg-gray-800 transition flex items-center gap-2"
+                  >
                     <FaFileInvoiceDollar className="text-green-400" /> Billing History
                   </Link>
                 </>
               ) : (
-                <Link to="/subscribe" onClick={() => setMobileMenuOpen(false)} className="block px-6 py-3 hover:bg-gray-800 transition flex items-center gap-2">
+                <Link
+                  to="/subscribe"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block px-6 py-3 hover:bg-gray-800 transition flex items-center gap-2"
+                >
                   <FaCrown className="text-yellow-400" /> Subscribe
                 </Link>
               )}
 
-              <button onClick={handleLogout} className="w-full text-left px-6 py-3 hover:bg-red-600 hover:text-white transition flex items-center gap-2">
+              <button
+                onClick={handleLogout}
+                className="w-full text-left px-6 py-3 hover:bg-red-600 hover:text-white transition flex items-center gap-2"
+              >
                 <FaSignOutAlt /> Logout
               </button>
             </>
           ) : (
             <>
-              <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="block px-6 py-3 hover:bg-gray-800 transition">Login</Link>
-              <Link to="/register" onClick={() => setMobileMenuOpen(false)} className="block px-6 py-3 hover:bg-gray-800 transition">Sign Up</Link>
+              <Link
+                to="/login"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block px-6 py-3 hover:bg-gray-800 transition"
+              >
+                Login
+              </Link>
+              <Link
+                to="/register"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block px-6 py-3 hover:bg-gray-800 transition"
+              >
+                Sign Up
+              </Link>
             </>
           )}
         </div>

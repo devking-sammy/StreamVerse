@@ -40,7 +40,7 @@ export default function Favorites() {
           Start adding movies to your favorites!
         </p>
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/home")}
           className="bg-red-600 hover:bg-red-700 px-6 py-2 rounded-lg text-white font-semibold transition"
         >
           Go Back to Home
