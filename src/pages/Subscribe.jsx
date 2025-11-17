@@ -91,7 +91,7 @@ export default function Subscribe() {
         title: "Payment Successful!",
         text: `You are now subscribed to the ${plan} plan.`,
         confirmButtonColor: "#e50914",
-      }).then(() => navigate("/"));
+      }).then(() => navigate("/home"));
     } catch (error) {
       console.error(error);
       Swal.fire({
@@ -137,7 +137,7 @@ export default function Subscribe() {
               View Billing History
             </button>
             <button
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/home")}
               className="bg-red-600 hover:bg-red-700 px-6 py-2 rounded-lg font-semibold transition"
             >
               Go to Home
