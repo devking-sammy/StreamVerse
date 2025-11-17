@@ -13,7 +13,7 @@ import {
 } from "react-icons/fa";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { app, db } from "../firebase/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import Logo from "../assets/Logo.png";
 
 export default function Navbar() {
@@ -27,11 +27,13 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const menuRef = useRef();
 
+  // 🔥 REAL-TIME AUTH & SUBSCRIPTION LISTENER
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
 
+        // --- Get user profile ---
         const userDocRef = doc(db, "users", currentUser.uid);
         const userDoc = await getDoc(userDocRef);
 
@@ -44,9 +46,18 @@ export default function Navbar() {
           setUserEmail(currentUser.email || "");
         }
 
+        // --- 🔥 REAL-TIME subscription listener ---
         const subDocRef = doc(db, "subscriptions", currentUser.uid);
-        const subSnap = await getDoc(subDocRef);
-        setPlan(subSnap.exists() && subSnap.data().active ? subSnap.data().plan : null);
+
+        const unsubscribeSub = onSnapshot(subDocRef, (snap) => {
+          if (snap.exists() && snap.data().active) {
+            setPlan(snap.data().plan);
+          } else {
+            setPlan(null);
+          }
+        });
+
+        return () => unsubscribeSub();
       } else {
         setUser(null);
         setUserName("");
@@ -58,6 +69,7 @@ export default function Navbar() {
     return () => unsubscribe();
   }, []);
 
+  // Close menus on outside click
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
@@ -80,8 +92,8 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 w-full bg-black/80 backdrop-blur-lg z-50 border-b border-gray-800">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
 
-        {/* LOGO - ONLY IMAGE, NO TEXT */}
-        <Link to="/home">
+        {/* Logo */}
+        <Link to="/home" className="flex items-center gap-2">
           <img src={Logo} alt="StreamVerse Logo" className="w-32 sm:w-36 object-contain" />
         </Link>
 
@@ -91,10 +103,7 @@ export default function Navbar() {
             Home
           </Link>
 
-          <Link
-            to="/search"
-            className="flex items-center gap-2 hover:text-white transition duration-200"
-          >
+          <Link to="/search" className="flex items-center gap-2 hover:text-white transition duration-200">
             <FaSearch className="text-lg" />
             <span className="hidden sm:inline">Search</span>
           </Link>
@@ -130,6 +139,7 @@ export default function Navbar() {
                       <FaHeart className="text-red-500" /> Favorites
                     </Link>
 
+                    {/* REAL-TIME subscription UI */}
                     {plan ? (
                       <>
                         <div className="flex items-center gap-2 px-4 py-3 text-sm text-yellow-400 font-semibold">
@@ -182,7 +192,7 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Mobile Button */}
+        {/* Mobile Hamburger */}
         <div className="md:hidden flex items-center">
           <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
             {mobileMenuOpen ? (
@@ -223,12 +233,12 @@ export default function Navbar() {
                 <FaHeart className="text-red-500" /> Favorites
               </Link>
 
+              {/* REAL-TIME subscription for mobile */}
               {plan ? (
                 <>
                   <div className="px-6 py-3 text-yellow-400 font-semibold flex items-center gap-2">
                     <FaCrown /> {plan} Plan
                   </div>
-
                   <Link
                     to="/billing"
                     onClick={() => setMobileMenuOpen(false)}
