@@ -31,21 +31,22 @@ export default function Home() {
 
   // ✅ Subscription check
   useEffect(() => {
-    const auth = getAuth();
-    const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const unsubDoc = onSnapshot(doc(db, "users", user.uid), (snapshot) => {
-          const data = snapshot.data();
-          setIsSubscribed(data?.subscribed || false);
-        });
-        return () => unsubDoc();
-      } else {
-        setIsSubscribed(false);
-      }
-    });
+  const auth = getAuth();
+  const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const unsubDoc = onSnapshot(doc(db, "subscriptions", user.uid), (snapshot) => {
+        const data = snapshot.data();
+        setIsSubscribed(data?.active || false);
+      });
+      return () => unsubDoc();
+    } else {
+      setIsSubscribed(false);
+    }
+  });
 
-    return () => unsubscribeAuth();
-  }, []);
+  return () => unsubscribeAuth();
+}, []);
+
 
   // ✅ Fetch movies
   useEffect(() => {
